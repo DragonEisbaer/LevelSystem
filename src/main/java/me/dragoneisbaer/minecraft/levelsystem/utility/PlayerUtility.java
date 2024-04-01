@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PlayerUtility {
-    private static Map<String, PlayerMemory> playerMemory = new HashMap<>();
+    private static final Map<String, PlayerMemory> playerMemory = new HashMap<>();
     public static PlayerMemory getPlayerMemory(Player player) {
         if (!playerMemory.containsKey(player.getUniqueId().toString())) {
             PlayerMemory m = new PlayerMemory();

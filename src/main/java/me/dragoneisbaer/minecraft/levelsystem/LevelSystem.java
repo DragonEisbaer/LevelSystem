@@ -7,6 +7,7 @@ import me.dragoneisbaer.minecraft.levelsystem.data.PlayerMemory;
 import me.dragoneisbaer.minecraft.levelsystem.events.DisplayLevel;
 import me.dragoneisbaer.minecraft.levelsystem.events.JumpNRunStartTimer;
 import me.dragoneisbaer.minecraft.levelsystem.events.LoadLevel;
+import me.dragoneisbaer.minecraft.levelsystem.events.ShowTime;
 import me.dragoneisbaer.minecraft.levelsystem.utility.PlayerUtility;
 import org.apache.commons.lang3.time.StopWatch;
 import org.bukkit.Bukkit;
@@ -44,6 +45,7 @@ public final class LevelSystem extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new LoadLevel(), this);
         Bukkit.getPluginManager().registerEvents(new DisplayLevel(), this);
         Bukkit.getPluginManager().registerEvents(new JumpNRunStartTimer(), this);
+        Bukkit.getPluginManager().registerEvents(new ShowTime(), this);
 
         getCommand("setlevel").setExecutor(new SetLevel());
         getCommand("setjumpstart").setExecutor(new SetJumpStart());

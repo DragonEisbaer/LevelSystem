@@ -2,6 +2,7 @@ package me.dragoneisbaer.minecraft.levelsystem.events;
 
 import com.google.common.base.Stopwatch;
 import me.dragoneisbaer.minecraft.levelsystem.LevelSystem;
+import net.kyori.adventure.title.Title;
 import org.apache.commons.lang3.time.StopWatch;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
