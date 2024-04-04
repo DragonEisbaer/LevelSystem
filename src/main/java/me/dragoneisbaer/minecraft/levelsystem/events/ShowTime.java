@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.awt.*;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 public class ShowTime implements Listener {
@@ -19,9 +20,9 @@ public class ShowTime implements Listener {
     public void ShowTitle(PlayerMoveEvent e) {
         Player player = e.getPlayer();
 
-        if (plugin.getJumpPlayers().get(player)) {
+        if (plugin.getJumpPlayers().get(player) != null && plugin.getJumpPlayers().get(player)) {
             final net.kyori.adventure.text.Component mainTitle = net.kyori.adventure.text.Component.text("Zeit: " + FormatTime(plugin.getJumpPlayerTime().get(player).getTime()), NamedTextColor.GOLD);
-            final Title title = Title.title(mainTitle, Component.text(""));
+            final Title title = Title.title(mainTitle, Component.text(""), Title.Times.times(Duration.ZERO, Duration.ofMillis(1000L), Duration.ZERO));
             player.showTitle(title);
         }
     }

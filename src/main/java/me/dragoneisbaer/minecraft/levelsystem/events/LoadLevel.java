@@ -1,17 +1,21 @@
 package me.dragoneisbaer.minecraft.levelsystem.events;
 
+import me.dragoneisbaer.minecraft.levelsystem.LevelSystem;
 import me.dragoneisbaer.minecraft.levelsystem.data.PlayerMemory;
 import me.dragoneisbaer.minecraft.levelsystem.utility.PlayerUtility;
+import org.apache.commons.lang3.time.StopWatch;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Team;
 
 import java.io.File;
@@ -26,18 +30,29 @@ public class LoadLevel implements Listener {
 
     @EventHandler
     private void onJoin(PlayerJoinEvent e) {
+
+        LevelSystem plugin = JavaPlugin.getPlugin(LevelSystem.class);
+        plugin.getJumpPlayers().put(e.getPlayer(), false);
+        plugin.getJumpnnameplayer().put(e.getPlayer(), "");
+        plugin.getJumpPlayerTime().put(e.getPlayer(), null);
+
         File f = new File(PlayerUtility.getFolderPath(e.getPlayer()) + "/general.yml");
         PlayerMemory memory = PlayerUtility.getPlayerMemory(e.getPlayer());
         if (f.exists()) {
             FileConfiguration cfg = YamlConfiguration.loadConfiguration(f);
             memory.setLevel(cfg.getInt("stats.level"));
-            memory.setName(cfg.getString("stats.name"));
+            if (memory.getName() != null) {
+                memory.setName(cfg.getString("stats.name"));
+            }else {
+                memory.setName(e.getPlayer().getName());
+            }
             e.getPlayer().sendMessage(ChatColor.GREEN + "Memory geladen! Level: " + memory.getLevel());
-        }else {
+        } else {
             memory.setLevel(0);
             memory.setName(e.getPlayer().getName());
         }
         PlayerUtility.setPlayerMemory(e.getPlayer(), memory);
+        ClearJumpNRunData(e.getPlayer());
     }
 
     @EventHandler
@@ -47,6 +62,17 @@ public class LoadLevel implements Listener {
         FileConfiguration cfg = YamlConfiguration.loadConfiguration(f);
         cfg.set("stats.level", memory.getLevel());
         cfg.set("stats.name", memory.getName());
+        DeleteUnusedTeams(event.getPlayer());
+        ClearJumpNRunData(event.getPlayer());
+        try {
+            cfg.save(f);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        PlayerUtility.setPlayerMemory(event.getPlayer(), null);
+    }
+
+    private void DeleteUnusedTeams(Player event) {
         for (Team team : event.getPlayer().getScoreboard().getTeams()) {
             team.removeEntries(event.getPlayer().getName());
         }
@@ -62,11 +88,17 @@ public class LoadLevel implements Listener {
             if (del == 0) {
                 Bukkit.getLogger().log(Level.INFO, "Team gelöscht: " + team.getName());
                 team.unregister();
-            }else {
+            } else {
                 System.out.println(del);
             }
         }
-        try{cfg.save(f);}catch (IOException e) {e.printStackTrace();}
-        PlayerUtility.setPlayerMemory(event.getPlayer(), null);
+    }
+    private void ClearJumpNRunData(Player player) {
+        LevelSystem plugin = JavaPlugin.getPlugin(LevelSystem.class);
+        plugin.getJumpPlayers().put(player, false);
+        plugin.getJumpPlayerTime().put(player, null);
+        plugin.getJumpnnameplayer().put(player, "");
+
+        System.out.println(plugin.getJumpPlayers().get(player));
     }
 }

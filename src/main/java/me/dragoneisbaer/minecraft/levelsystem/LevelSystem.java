@@ -32,10 +32,10 @@ import java.util.stream.Collectors;
 
 public final class LevelSystem extends JavaPlugin {
 
-    HashMap<Location, String> jumpnrunloactions = new HashMap<>();
-    HashMap<Player, Boolean> jumpplayers = new HashMap<>();
-    HashMap<Player, String> jumpnnameplayer = new HashMap<>();
-    HashMap<Player, StopWatch> playerjumptime = new HashMap<>();
+    private HashMap<Location, String> jumpnrunloactions = new HashMap<>();
+    private HashMap<Player, Boolean> jumpplayers = new HashMap<>();
+    private HashMap<Player, String> jumpnnameplayer = new HashMap<>();
+    private HashMap<Player, StopWatch> playerjumptime = new HashMap<>();
 
     //Storing data: https://www.youtube.com/watch?v=NjfnfGghLuw
     @Override
@@ -59,7 +59,6 @@ public final class LevelSystem extends JavaPlugin {
 
     @Override
     public void onDisable(){
-        // Plugin shutdown logic
         getLogger().log(Level.INFO, "[LevelSystem] shutdown.");
         for (Player player : Bukkit.getOnlinePlayers()) {
             PlayerMemory memory = PlayerUtility.getPlayerMemory(player);
@@ -114,31 +113,22 @@ public final class LevelSystem extends JavaPlugin {
             jumpnrunloactions.put(endelocation, f.getName().substring(0,f.getName().lastIndexOf(".")) + "Ende");
         }
     }
+    private void setAllPlayerJumpNull() {
+        jumpplayers.replaceAll((p, v) -> false);
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            jumpplayers.put(player, false);
+        }
+        jumpnnameplayer.replaceAll((p, v) -> "");
+        playerjumptime.replaceAll((p, v) -> null);
+    }
 
     public HashMap<Player,Boolean> getJumpPlayers() {
         return jumpplayers;
     }
-    public void setJumpplayers(Player player, Boolean bool) {
-        jumpplayers.put(player, bool);
-    }
     public HashMap<Player, StopWatch> getJumpPlayerTime() {
         return playerjumptime;
     }
-    private void setAllPlayerJumpNull() {
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            jumpplayers.put(player, false);
-            jumpnnameplayer.put(player, null);
-            playerjumptime.put(player, null);
-        }
-    }
-    public void SetPlayerJumpTime (Player player, StopWatch time) {
-        playerjumptime.put(player, time);
-    }
     public HashMap<Player,String> getJumpnnameplayer(){
         return jumpnnameplayer;
-    }
-
-    public void setJumpPlayerName(Player player, String jumpnrunname) {
-        jumpnnameplayer.put(player, jumpnrunname);
     }
 }
