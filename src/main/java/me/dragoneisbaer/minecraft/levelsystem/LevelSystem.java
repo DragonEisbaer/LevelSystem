@@ -26,7 +26,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
@@ -36,6 +35,8 @@ public final class LevelSystem extends JavaPlugin {
     private HashMap<Player, Boolean> jumpplayers = new HashMap<>();
     private HashMap<Player, String> jumpnnameplayer = new HashMap<>();
     private HashMap<Player, StopWatch> playerjumptime = new HashMap<>();
+    private HashMap<Player, Boolean> startedMessage = new HashMap<>();
+    private HashMap<Player, Boolean> alreadymessage = new HashMap<>();
 
     //Storing data: https://www.youtube.com/watch?v=NjfnfGghLuw
     @Override
@@ -115,8 +116,12 @@ public final class LevelSystem extends JavaPlugin {
     }
     private void setAllPlayerJumpNull() {
         jumpplayers.replaceAll((p, v) -> false);
+        alreadymessage.replaceAll((p, v) -> false);
+        startedMessage.replaceAll((p, v) -> false);
         for (Player player : Bukkit.getOnlinePlayers()) {
             jumpplayers.put(player, false);
+            alreadymessage.put(player, false);
+            startedMessage.put(player, false);
         }
         jumpnnameplayer.replaceAll((p, v) -> "");
         playerjumptime.replaceAll((p, v) -> null);
@@ -130,5 +135,11 @@ public final class LevelSystem extends JavaPlugin {
     }
     public HashMap<Player,String> getJumpnnameplayer(){
         return jumpnnameplayer;
+    }
+    public HashMap<Player, Boolean> getStartedMessage() {
+        return startedMessage;
+    }
+    public HashMap<Player, Boolean> getAlreadyMessage() {
+        return alreadymessage;
     }
 }

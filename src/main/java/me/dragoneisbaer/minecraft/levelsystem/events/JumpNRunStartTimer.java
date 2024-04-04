@@ -50,13 +50,18 @@ public class JumpNRunStartTimer implements Listener {
                         plugin.getJumpPlayers().put(player, true);
                         player.sendMessage(ChatColor.GREEN + "JumpNRun: " + jumpnrunname + " wurde gestartet!");
                     }else {
-                        player.sendMessage(ChatColor.RED + "Du hast bereits ein JumpNRun gestartet.");
+                        if (!plugin.getStartedMessage().get(player)) {
+                            player.sendMessage(ChatColor.RED + "Du hast bereits ein JumpNRun gestartet.");
+                            plugin.getStartedMessage().put(player, true);
+                        }
                     }
                 }else if (name.contains("Ende") && name.substring(name.length()-4).equalsIgnoreCase("Ende")){
                     String jumpnrunname = name.substring(0,name.length()-4);
                     if (jumpnrunname.equalsIgnoreCase(plugin.getJumpnnameplayer().get(player))) {
                          if (plugin.getJumpPlayers().get(player)) {
                              plugin.getJumpPlayerTime().get(player).stop();
+                             plugin.getAlreadyMessage().put(player, false);
+                             plugin.getStartedMessage().put(player, false);
                              plugin.getJumpPlayers().put(player, false);
                              long time = plugin.getJumpPlayerTime().get(player).getTime();
                              plugin.getJumpPlayerTime().get(player).reset();
@@ -73,7 +78,10 @@ public class JumpNRunStartTimer implements Listener {
                              try{cfg.save(f);}catch (IOException ee){ee.printStackTrace();};
                          }
                     }else {
-                        player.sendMessage(ChatColor.DARK_RED + "Das ist zwar ein JumpNRunEnde, aber nicht deins!");
+                        if (!plugin.getAlreadyMessage().get(player)) {
+                            player.sendMessage(ChatColor.DARK_RED + "Das ist zwar ein JumpNRunEnde, aber nicht deins!");
+                            plugin.getAlreadyMessage().put(player, true);
+                        }
                     }
                 }
             }
