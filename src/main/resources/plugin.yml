@@ -16,3 +16,6 @@ commands:
   stopjumpnrun:
     description: Stoppt dein JumpNRun.
     usage: /<command>
+  reloadjumpnrun:
+    description: Reloaded alle deine JumpNRunLocations.
+    usage: /<command>

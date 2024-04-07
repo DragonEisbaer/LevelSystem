@@ -1,9 +1,6 @@
 package me.dragoneisbaer.minecraft.levelsystem;
 
-import me.dragoneisbaer.minecraft.levelsystem.commands.SetJumpEnd;
-import me.dragoneisbaer.minecraft.levelsystem.commands.SetJumpStart;
-import me.dragoneisbaer.minecraft.levelsystem.commands.SetLevel;
-import me.dragoneisbaer.minecraft.levelsystem.commands.StopJumpNRun;
+import me.dragoneisbaer.minecraft.levelsystem.commands.*;
 import me.dragoneisbaer.minecraft.levelsystem.data.PlayerMemory;
 import me.dragoneisbaer.minecraft.levelsystem.events.DisplayLevel;
 import me.dragoneisbaer.minecraft.levelsystem.events.JumpNRunStartTimer;
@@ -27,6 +24,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
@@ -51,12 +49,13 @@ public final class LevelSystem extends JavaPlugin {
 
         getCommand("setlevel").setExecutor(new SetLevel());
         getCommand("stopjumpnrun").setExecutor(new StopJumpNRun());
+        getCommand("reloadjumpnrun").setExecutor(new ReloadJumpNrun());
         getCommand("setjumpstart").setExecutor(new SetJumpStart());
         getCommand("setjumpende").setExecutor(new SetJumpEnd());
 
         loadPlayerData();
         loadJumpNRunLocations();
-        setAllPlayerJumpNull();
+        setAllPlayerJumpNormal();
 
     }
 
@@ -108,15 +107,15 @@ public final class LevelSystem extends JavaPlugin {
             e.printStackTrace();
         }
         for (File f : files) {
-            getLogger().log(Level.INFO, "JumpNRun: " + f.getName().substring(0,f.getName().lastIndexOf(".")) + " geladen!");
+            Bukkit.getLogger().log(Level.INFO, "JumpNRun: " + f.getName().substring(0,f.getName().lastIndexOf(".")) + " geladen!");
             FileConfiguration cfg = YamlConfiguration.loadConfiguration(f);
-            Location anfanglocation = new Location(Bukkit.getWorld(cfg.getString("Anfang.World")), cfg.getDouble("Anfang.X"), cfg.getDouble("Anfang.Y"), cfg.getDouble("Anfang.Z"));
-            Location endelocation = new Location(Bukkit.getWorld(cfg.getString("Ende.World")), cfg.getDouble("Ende.X"), cfg.getDouble("Ende.Y"), cfg.getDouble("Ende.Z"));
+            Location anfanglocation = new Location(Bukkit.getWorld(UUID.fromString(cfg.getString("Anfang.World"))), cfg.getDouble("Anfang.X"), cfg.getDouble("Anfang.Y"), cfg.getDouble("Anfang.Z"));
+            Location endelocation = new Location(Bukkit.getWorld(UUID.fromString(cfg.getString("Ende.World"))), cfg.getDouble("Ende.X"), cfg.getDouble("Ende.Y"), cfg.getDouble("Ende.Z"));
             jumpnrunloactions.put(anfanglocation, f.getName().substring(0,f.getName().lastIndexOf(".")) + "Anfang");
             jumpnrunloactions.put(endelocation, f.getName().substring(0,f.getName().lastIndexOf(".")) + "Ende");
         }
     }
-    private void setAllPlayerJumpNull() {
+    private void setAllPlayerJumpNormal() {
         jumpplayers.replaceAll((p, v) -> false);
         alreadymessage.replaceAll((p, v) -> false);
         startedMessage.replaceAll((p, v) -> false);

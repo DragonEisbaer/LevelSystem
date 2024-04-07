@@ -91,5 +91,7 @@ public class LoadLevel implements Listener {
         plugin.getJumpPlayers().put(player, false);
         plugin.getJumpPlayerTime().put(player, null);
         plugin.getJumpnnameplayer().put(player, "");
+        plugin.getStartedMessage().put(player, false);
+        plugin.getAlreadyMessage().put(player, false);
     }
 }

@@ -25,7 +25,7 @@ public class SetJumpEnd implements CommandExecutor {
                 File f = new File(Bukkit.getPluginsFolder().getAbsolutePath() + "/JumpNRunLocations/" + strings[0] + ".yml");
                 if (f.exists()) {
                     YamlConfiguration cfg = YamlConfiguration.loadConfiguration(f);
-                    cfg.set("Ende.World", playerloc.getWorld().getName());
+                    cfg.set("Ende.World", playerloc.getWorld().getUID().toString());
                     cfg.set("Ende.Y", playerloc.getY());
                     cfg.set("Ende.X", playerloc.getX());
                     cfg.set("Ende.Z", playerloc.getZ());
