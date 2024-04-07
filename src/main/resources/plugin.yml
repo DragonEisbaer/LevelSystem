@@ -13,3 +13,6 @@ commands:
   setjumpende:
     description: Setzte den Endpunkt eines JumpNRuns.
     usage: /<command> <name>
+  stopjumpnrun:
+    description: Stoppt dein JumpNRun.
+    usage: /<command>

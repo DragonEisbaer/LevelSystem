@@ -3,6 +3,7 @@ package me.dragoneisbaer.minecraft.levelsystem;
 import me.dragoneisbaer.minecraft.levelsystem.commands.SetJumpEnd;
 import me.dragoneisbaer.minecraft.levelsystem.commands.SetJumpStart;
 import me.dragoneisbaer.minecraft.levelsystem.commands.SetLevel;
+import me.dragoneisbaer.minecraft.levelsystem.commands.StopJumpNRun;
 import me.dragoneisbaer.minecraft.levelsystem.data.PlayerMemory;
 import me.dragoneisbaer.minecraft.levelsystem.events.DisplayLevel;
 import me.dragoneisbaer.minecraft.levelsystem.events.JumpNRunStartTimer;
@@ -49,6 +50,7 @@ public final class LevelSystem extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new ShowTime(), this);
 
         getCommand("setlevel").setExecutor(new SetLevel());
+        getCommand("stopjumpnrun").setExecutor(new StopJumpNRun());
         getCommand("setjumpstart").setExecutor(new SetJumpStart());
         getCommand("setjumpende").setExecutor(new SetJumpEnd());
 
