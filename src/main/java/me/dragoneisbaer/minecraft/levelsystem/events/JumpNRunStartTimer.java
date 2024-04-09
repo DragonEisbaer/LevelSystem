@@ -2,6 +2,7 @@ package me.dragoneisbaer.minecraft.levelsystem.events;
 
 import com.google.common.base.Stopwatch;
 import me.dragoneisbaer.minecraft.levelsystem.LevelSystem;
+import me.dragoneisbaer.minecraft.levelsystem.data.PlayerMemory;
 import me.dragoneisbaer.minecraft.levelsystem.utility.PlayerUtility;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.title.Title;
@@ -72,27 +73,34 @@ public class JumpNRunStartTimer implements Listener {
                              final net.kyori.adventure.text.Component subtitle = net.kyori.adventure.text.Component.text("Zeit: " + FormatTime(time), NamedTextColor.GOLD);
                              final Title title = Title.title(mainTitle, subtitle);
                              player.showTitle(title);
+
+                             File f = new File(PlayerUtility.getFolderPath(player) + "/general.yml");
+                             FileConfiguration cfg = YamlConfiguration.loadConfiguration(f);
+                             int exp = cfg.getInt("stats.exp");
                              switch (plugin.getPlayerJumpDifficulty().get(player)) {
                                  case 1:
                                      player.getInventory().addItem(new ItemStack(Material.GOLD_INGOT, 5));
+                                     exp = exp + 10;
                                      break;
                                  case 2:
                                      player.getInventory().addItem(new ItemStack(Material.GOLD_INGOT, 10));
+                                     exp = exp + 20;
                                      break;
                                  case 3:
                                      player.getInventory().addItem(new ItemStack(Material.GOLD_INGOT, 20));
+                                     exp = exp + 30;
                                      break;
                                  default:
                                      plugin.getLogger().log(Level.SEVERE, "Level konnte nicht geladen werden. " + "Player: " + player);
                              }
+                             cfg.set("stats.exp", exp);
+                             CheckForLevelUP(exp, cfg, f, player);
                              plugin.getPlayerJumpDifficulty().put(player, 1);
-                             File f = new File(PlayerUtility.getFolderPath(player) + "/general.yml");
-                             FileConfiguration cfg = YamlConfiguration.loadConfiguration(f);
                              if (time < cfg.getLong("timers." + jumpnrunname + ".best-time-millis")) {
                                  cfg.set("timers." + jumpnrunname + ".best-time-millis", time);
                                  cfg.set("timers." + jumpnrunname + ".best-time-formated", FormatTime(time));
                              }
-                             try{cfg.save(f);}catch (IOException ee){ee.printStackTrace();};
+                             try{cfg.save(f);}catch (IOException ee){ee.printStackTrace();}
                          }
                     }else {
                         if (!plugin.getAlreadyMessage().get(player)) {
@@ -107,5 +115,23 @@ public class JumpNRunStartTimer implements Listener {
 
     private String FormatTime(long time) {
         return String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(time), TimeUnit.MILLISECONDS.toMinutes(time) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(time)), TimeUnit.MILLISECONDS.toSeconds(time) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(time)));
+    }
+    private void CheckForLevelUP(int exp, FileConfiguration cfg, File file, Player player){
+        System.out.println(exp);
+        if (exp >= 100) {
+            System.out.println("100+");
+            if (cfg.getInt("stats.level") <= 999) {
+                cfg.set("stats.level", cfg.getInt("stats.level") + 1);
+                cfg.set("stats.exp", cfg.getInt("stats.exp") - 100);
+                PlayerMemory memory = PlayerUtility.getPlayerMemory(player);
+                memory.setLevel(cfg.getInt("stats.level"));
+                PlayerUtility.setPlayerMemory(player, memory);
+                try {
+                    cfg.save(file);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

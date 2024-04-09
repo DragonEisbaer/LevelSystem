@@ -30,13 +30,13 @@ import java.util.stream.Collectors;
 
 public final class LevelSystem extends JavaPlugin {
 
-    private HashMap<Location, String> jumpnrunloactions = new HashMap<>();
-    private HashMap<Player, Boolean> jumpplayers = new HashMap<>();
-    private HashMap<Player, String> jumpnnameplayer = new HashMap<>();
-    private HashMap<Player, StopWatch> playerjumptime = new HashMap<>();
-    private HashMap<Player, Boolean> startedMessage = new HashMap<>();
-    private HashMap<Player, Boolean> alreadymessage = new HashMap<>();
-    private HashMap<Player, Integer> jumpdifficulty = new HashMap<>();
+    private final HashMap<Location, String> jumpnrunloactions = new HashMap<>();
+    private final HashMap<Player, Boolean> jumpplayers = new HashMap<>();
+    private final HashMap<Player, String> jumpnnameplayer = new HashMap<>();
+    private final HashMap<Player, StopWatch> playerjumptime = new HashMap<>();
+    private final HashMap<Player, Boolean> startedMessage = new HashMap<>();
+    private final HashMap<Player, Boolean> alreadymessage = new HashMap<>();
+    private final HashMap<Player, Integer> jumpdifficulty = new HashMap<>();
 
     //Storing data: https://www.youtube.com/watch?v=NjfnfGghLuw
     @Override
@@ -68,10 +68,11 @@ public final class LevelSystem extends JavaPlugin {
             File f = new File(PlayerUtility.getFolderPath(player) + "/general.yml");
             FileConfiguration cfg = YamlConfiguration.loadConfiguration(f);
             cfg.set("stats.level", memory.getLevel());
+            //cfg.set("stats.exp", memory.getExp());
             cfg.set("stats.name", memory.getName());
             try{cfg.save(f);
                 getLogger().log(Level.INFO, "[LevelSystemData] saved.");}
-            catch (IOException e){e.printStackTrace();};
+            catch (IOException e){e.printStackTrace();}
         }
     }
 
@@ -89,8 +90,15 @@ public final class LevelSystem extends JavaPlugin {
                 memory.setName(cfg.getString("stats.name"));
                 player.sendMessage(ChatColor.GREEN + "Memory geladen! Level: " + memory.getLevel());
             }else {
+                FileConfiguration cfg = YamlConfiguration.loadConfiguration(f);
+                cfg.set("stats.exp", 0);
                 memory.setLevel(0);
                 memory.setName(player.getName());
+                try {
+                    cfg.save(f);
+                }catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
             PlayerUtility.setPlayerMemory(player, memory);
             getLogger().log(Level.INFO, "[LevelSystemData] loaded.");
