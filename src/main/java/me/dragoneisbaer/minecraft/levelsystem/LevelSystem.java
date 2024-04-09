@@ -99,21 +99,25 @@ public final class LevelSystem extends JavaPlugin {
     private void loadJumpNRunLocations() {
         File folder = new File(Bukkit.getPluginsFolder().getAbsolutePath() + "/JumpNRunLocations/");
         List<File> files = new ArrayList<>();
-        try {
-            files = Files.list(Paths.get(folder.toURI()))
-                    .map(Path::toFile)
-                    .filter(File::isFile)
-                    .collect(Collectors.toList());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        for (File f : files) {
-            Bukkit.getLogger().log(Level.INFO, "JumpNRun: " + f.getName().substring(0,f.getName().lastIndexOf(".")) + " geladen!");
-            FileConfiguration cfg = YamlConfiguration.loadConfiguration(f);
-            Location anfanglocation = new Location(Bukkit.getWorld(UUID.fromString(cfg.getString("Anfang.World"))), cfg.getDouble("Anfang.X"), cfg.getDouble("Anfang.Y"), cfg.getDouble("Anfang.Z"));
-            Location endelocation = new Location(Bukkit.getWorld(UUID.fromString(cfg.getString("Ende.World"))), cfg.getDouble("Ende.X"), cfg.getDouble("Ende.Y"), cfg.getDouble("Ende.Z"));
-            jumpnrunloactions.put(anfanglocation, f.getName().substring(0,f.getName().lastIndexOf(".")) + "Anfang");
-            jumpnrunloactions.put(endelocation, f.getName().substring(0,f.getName().lastIndexOf(".")) + "Ende");
+        if (folder.exists()) {
+            try {
+                files = Files.list(Paths.get(folder.toURI()))
+                        .map(Path::toFile)
+                        .filter(File::isFile)
+                        .collect(Collectors.toList());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            for (File f : files) {
+                Bukkit.getLogger().log(Level.INFO, "JumpNRun: " + f.getName().substring(0, f.getName().lastIndexOf(".")) + " geladen!");
+                FileConfiguration cfg = YamlConfiguration.loadConfiguration(f);
+                Location anfanglocation = new Location(Bukkit.getWorld(UUID.fromString(cfg.getString("Anfang.World"))), cfg.getDouble("Anfang.X"), cfg.getDouble("Anfang.Y"), cfg.getDouble("Anfang.Z"));
+                Location endelocation = new Location(Bukkit.getWorld(UUID.fromString(cfg.getString("Ende.World"))), cfg.getDouble("Ende.X"), cfg.getDouble("Ende.Y"), cfg.getDouble("Ende.Z"));
+                jumpnrunloactions.put(anfanglocation, f.getName().substring(0, f.getName().lastIndexOf(".")) + "Anfang");
+                jumpnrunloactions.put(endelocation, f.getName().substring(0, f.getName().lastIndexOf(".")) + "Ende");
+            }
+        }else {
+            this.getLogger().log(Level.WARNING, "Es gibt noch keine JumpNRuns!");
         }
     }
     private void setAllPlayerJumpNormal() {

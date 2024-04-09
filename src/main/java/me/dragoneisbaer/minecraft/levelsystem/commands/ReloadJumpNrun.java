@@ -35,25 +35,29 @@ public class ReloadJumpNrun implements CommandExecutor {
             LevelSystem plugin = JavaPlugin.getPlugin(LevelSystem.class);
 
             File folder = new File(Bukkit.getPluginsFolder().getAbsolutePath() + "/JumpNRunLocations/");
-            List<File> files = new ArrayList<>();
-            try {
-                files = Files.list(Paths.get(folder.toURI()))
-                        .map(Path::toFile)
-                        .filter(File::isFile)
-                        .collect(Collectors.toList());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            for (File f : files) {
-                FileConfiguration cfg = YamlConfiguration.loadConfiguration(f);
-                Location anfanglocation = new Location(Bukkit.getWorld(UUID.fromString(cfg.getString("Anfang.World"))), cfg.getDouble("Anfang.X"), cfg.getDouble("Anfang.Y"), cfg.getDouble("Anfang.Z"));
-                Location endelocation = new Location(Bukkit.getWorld(UUID.fromString(cfg.getString("Ende.World"))), cfg.getDouble("Ende.X"), cfg.getDouble("Ende.Y"), cfg.getDouble("Ende.Z"));
-                plugin.getJumpnrunloactions().put(anfanglocation, f.getName().substring(0,f.getName().lastIndexOf(".")) + "Anfang");
-                plugin.getJumpnrunloactions().put(endelocation, f.getName().substring(0,f.getName().lastIndexOf(".")) + "Ende");
-                Bukkit.getLogger().log(Level.INFO, "JumpNRun: " + f.getName().substring(0,f.getName().lastIndexOf(".")) + " geladen!");
-                if (commandSender instanceof Player) {
-                    ((Player) commandSender).getPlayer().sendMessage(ChatColor.DARK_GREEN + ("JumpNRun: " + f.getName().substring(0,f.getName().lastIndexOf(".")) + " geladen!"));
+            if (folder.exists()) {
+                List<File> files = new ArrayList<>();
+                try {
+                    files = Files.list(Paths.get(folder.toURI()))
+                            .map(Path::toFile)
+                            .filter(File::isFile)
+                            .collect(Collectors.toList());
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+                for (File f : files) {
+                    FileConfiguration cfg = YamlConfiguration.loadConfiguration(f);
+                    Location anfanglocation = new Location(Bukkit.getWorld(UUID.fromString(cfg.getString("Anfang.World"))), cfg.getDouble("Anfang.X"), cfg.getDouble("Anfang.Y"), cfg.getDouble("Anfang.Z"));
+                    Location endelocation = new Location(Bukkit.getWorld(UUID.fromString(cfg.getString("Ende.World"))), cfg.getDouble("Ende.X"), cfg.getDouble("Ende.Y"), cfg.getDouble("Ende.Z"));
+                    plugin.getJumpnrunloactions().put(anfanglocation, f.getName().substring(0, f.getName().lastIndexOf(".")) + "Anfang");
+                    plugin.getJumpnrunloactions().put(endelocation, f.getName().substring(0, f.getName().lastIndexOf(".")) + "Ende");
+                    Bukkit.getLogger().log(Level.INFO, "JumpNRun: " + f.getName().substring(0, f.getName().lastIndexOf(".")) + " geladen!");
+                    if (commandSender instanceof Player) {
+                        ((Player) commandSender).getPlayer().sendMessage(ChatColor.DARK_GREEN + ("JumpNRun: " + f.getName().substring(0, f.getName().lastIndexOf(".")) + " geladen!"));
+                    }
+                }
+            }else {
+                commandSender.sendMessage(ChatColor.RED + "Es gibt noch keine JumpNRuns!");
             }
         }else {
             commandSender.sendMessage(NamedTextColor.DARK_RED + "Du hast keine Berechtigung dafür!");
