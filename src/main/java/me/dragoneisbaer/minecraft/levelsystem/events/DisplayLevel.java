@@ -32,7 +32,7 @@ public class DisplayLevel implements Listener {
         } else if (cfg.getInt("stats.level") <= 999) {
             prefix = ChatColor.GRAY + ChatColor.ITALIC.toString() + "[" + ChatColor.RED + org.bukkit.ChatColor.MAGIC + "1" + ChatColor.ITALIC + ChatColor.RED + ChatColor.ITALIC + cfg.getInt("stats.level") + ChatColor.ITALIC + org.bukkit.ChatColor.MAGIC + "1" + ChatColor.GRAY + ChatColor.ITALIC + "] ";
         } else if (cfg.getInt("stats.level") == 1000) {
-            prefix = ChatColor.GRAY + ChatColor.ITALIC.toString() + "[" + ChatColor.YELLOW + org.bukkit.ChatColor.MAGIC + "1" + ChatColor.YELLOW + ChatColor.ITALIC + cfg.getInt("stats.level") + ChatColor.ITALIC + org.bukkit.ChatColor.MAGIC + "1" + ChatColor.GRAY + ChatColor.ITALIC + "] ";
+            prefix = org.bukkit.ChatColor.GRAY + ChatColor.ITALIC.toString() + org.bukkit.ChatColor.BOLD +  "[" + ChatColor.YELLOW + org.bukkit.ChatColor.MAGIC + org.bukkit.ChatColor.BOLD + "1" + ChatColor.YELLOW + ChatColor.ITALIC + org.bukkit.ChatColor.BOLD + cfg.getInt("stats.level") + ChatColor.ITALIC + org.bukkit.ChatColor.MAGIC + org.bukkit.ChatColor.BOLD + "1" + ChatColor.GRAY + ChatColor.ITALIC + org.bukkit.ChatColor.BOLD + "] ";
         }else {
             player.sendMessage(org.bukkit.ChatColor.RED + "Dieses Level ist nicht zulässig!");
         }
