@@ -36,6 +36,7 @@ public final class LevelSystem extends JavaPlugin {
     private HashMap<Player, StopWatch> playerjumptime = new HashMap<>();
     private HashMap<Player, Boolean> startedMessage = new HashMap<>();
     private HashMap<Player, Boolean> alreadymessage = new HashMap<>();
+    private HashMap<Player, Integer> jumpdifficulty = new HashMap<>();
 
     //Storing data: https://www.youtube.com/watch?v=NjfnfGghLuw
     @Override
@@ -123,9 +124,11 @@ public final class LevelSystem extends JavaPlugin {
             jumpplayers.put(player, false);
             alreadymessage.put(player, false);
             startedMessage.put(player, false);
+            jumpdifficulty.put(player, 1);
         }
         jumpnnameplayer.replaceAll((p, v) -> "");
         playerjumptime.replaceAll((p, v) -> null);
+        jumpdifficulty.replaceAll((p, v) -> 1);
     }
 
     public HashMap<Player,Boolean> getJumpPlayers() {
@@ -142,5 +145,8 @@ public final class LevelSystem extends JavaPlugin {
     }
     public HashMap<Player, Boolean> getAlreadyMessage() {
         return alreadymessage;
+    }
+    public HashMap<Player, Integer> getPlayerJumpDifficulty() {
+        return jumpdifficulty;
     }
 }

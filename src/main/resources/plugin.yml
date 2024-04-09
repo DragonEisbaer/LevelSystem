@@ -9,7 +9,7 @@ commands:
     usage: /<command>
   setjumpstart:
     description: Setzte den Startpunkt eines JumpNRuns.
-    usage: /<command> <name>
+    usage: /<command> <name> <difficulty>
   setjumpende:
     description: Setzte den Endpunkt eines JumpNRuns.
     usage: /<command> <name>
