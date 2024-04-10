@@ -4,6 +4,7 @@ import com.google.common.base.Stopwatch;
 import me.dragoneisbaer.minecraft.levelsystem.LevelSystem;
 import me.dragoneisbaer.minecraft.levelsystem.data.PlayerMemory;
 import me.dragoneisbaer.minecraft.levelsystem.utility.PlayerUtility;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.title.Title;
 import org.apache.commons.lang3.time.StopWatch;
@@ -69,8 +70,8 @@ public class JumpNRunStartTimer implements Listener {
                              plugin.getJumpPlayers().put(player, false);
                              long time = plugin.getJumpPlayerTime().get(player).getTime();
                              plugin.getJumpPlayerTime().get(player).reset();
-                             final net.kyori.adventure.text.Component mainTitle = net.kyori.adventure.text.Component.text("JumpNRun: " + jumpnrunname + " abgeschlossen!", NamedTextColor.GREEN);
-                             final net.kyori.adventure.text.Component subtitle = net.kyori.adventure.text.Component.text("Zeit: " + FormatTime(time), NamedTextColor.GOLD);
+                             final Component mainTitle = Component.text("JumpNRun: " + jumpnrunname + " abgeschlossen!", NamedTextColor.GREEN);
+                             final Component subtitle = Component.text("Zeit: " + FormatTime(time), NamedTextColor.GOLD);
                              final Title title = Title.title(mainTitle, subtitle);
                              player.showTitle(title);
 
@@ -117,9 +118,7 @@ public class JumpNRunStartTimer implements Listener {
         return String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(time), TimeUnit.MILLISECONDS.toMinutes(time) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(time)), TimeUnit.MILLISECONDS.toSeconds(time) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(time)));
     }
     private void CheckForLevelUP(int exp, FileConfiguration cfg, File file, Player player){
-        System.out.println(exp);
-        if (exp >= 100) {
-            System.out.println("100+");
+        if (exp >= GetRequiredXP(cfg)) {
             if (cfg.getInt("stats.level") <= 999) {
                 cfg.set("stats.level", cfg.getInt("stats.level") + 1);
                 cfg.set("stats.exp", cfg.getInt("stats.exp") - 100);
@@ -132,6 +131,24 @@ public class JumpNRunStartTimer implements Listener {
                     e.printStackTrace();
                 }
             }
+        }
+    }
+    private int GetRequiredXP(FileConfiguration cfg) {
+        int level = cfg.getInt("stats.level");
+        if (level <= 49) {
+            return 100;
+        } else if (level <= 99) {
+            return 150;
+        } else if (level <= 299) {
+            return 200;
+        } else if (level <= 499) {
+            return 250;
+        } else if (level <= 999) {
+            return 300;
+        } else if (level == 1000) {
+            return 350;
+        }else {
+            return (-1);
         }
     }
 }
