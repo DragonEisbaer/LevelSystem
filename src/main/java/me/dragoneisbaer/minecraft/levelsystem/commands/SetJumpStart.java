@@ -26,7 +26,7 @@ public class SetJumpStart implements CommandExecutor {
                 Location playerloc = player.getLocation();
                 File f = new File(Bukkit.getPluginsFolder().getAbsolutePath() + "/JumpNRunLocations/" + strings[0] + ".yml");
                 YamlConfiguration cfg = YamlConfiguration.loadConfiguration(f);
-                cfg.set("Anfang.World", playerloc.getWorld().getUID().toString());
+                cfg.set("Anfang.World", playerloc.getWorld().getName());
                 cfg.set("Anfang.Y", playerloc.getY());
                 cfg.set("Anfang.X", playerloc.getX());
                 cfg.set("Anfang.Z", playerloc.getZ());
