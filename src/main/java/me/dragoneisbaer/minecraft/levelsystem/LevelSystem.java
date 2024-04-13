@@ -104,7 +104,7 @@ public final class LevelSystem extends JavaPlugin {
             getLogger().log(Level.INFO, "[LevelSystemData] loaded.");
         }
     }
-    private void loadJumpNRunLocations() {
+    public void loadJumpNRunLocations() {
         File folder = new File(Bukkit.getPluginsFolder().getAbsolutePath() + "/JumpNRunLocations/");
         List<File> files = new ArrayList<>();
         if (folder.exists()) {
