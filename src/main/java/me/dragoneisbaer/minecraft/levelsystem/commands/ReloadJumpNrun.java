@@ -35,6 +35,9 @@ public class ReloadJumpNrun implements CommandExecutor {
             LevelSystem plugin = JavaPlugin.getPlugin(LevelSystem.class);
 
             plugin.loadJumpNRunLocations();
+            if (commandSender instanceof Player) {
+                ((Player) commandSender).getPlayer().sendMessage(ChatColor.DARK_GREEN + "JumpNRuns geladen!");
+            }
         }else {
             commandSender.sendMessage(NamedTextColor.DARK_RED + "Du hast keine Berechtigung dafür!");
         }
