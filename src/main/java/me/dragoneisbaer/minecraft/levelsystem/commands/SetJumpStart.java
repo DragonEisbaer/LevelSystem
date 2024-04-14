@@ -21,26 +21,30 @@ public class SetJumpStart implements CommandExecutor {
 
         if (commandSender instanceof Player) {
             Player player = ((Player) commandSender).getPlayer();
-            if (strings.length == 2 && player.hasPermission("levelsystem.jumpnrunstart")) {
-                int difficulty = Integer.parseInt(strings[1]);
-                Location playerloc = player.getLocation();
-                File f = new File(Bukkit.getPluginsFolder().getAbsolutePath() + "/JumpNRunLocations/" + strings[0] + ".yml");
-                YamlConfiguration cfg = YamlConfiguration.loadConfiguration(f);
-                cfg.set("Anfang.World", playerloc.getWorld().getName());
-                cfg.set("Anfang.Y", playerloc.getY());
-                cfg.set("Anfang.X", playerloc.getX());
-                cfg.set("Anfang.Z", playerloc.getZ());
-                cfg.set("Schwierigkeitsgrad", difficulty);
-                try {
-                    cfg.save(f);
-                    player.sendMessage(ChatColor.GREEN + "JumpNRunStart Location gespeichert." + " Name: " + strings[0] + " Schwierigkeitsgrad: " + difficulty);
-                } catch (IOException e) {
-                    e.printStackTrace();
+            if (player.hasPermission("levelsystem.jumpnrunstart")) {
+                if (strings.length == 2) {
+                    int difficulty = Integer.parseInt(strings[1]);
+                    Location playerloc = player.getLocation();
+                    File f = new File(Bukkit.getPluginsFolder().getAbsolutePath() + "/JumpNRunLocations/" + strings[0] + ".yml");
+                    YamlConfiguration cfg = YamlConfiguration.loadConfiguration(f);
+                    cfg.set("Anfang.World", playerloc.getWorld().getName());
+                    cfg.set("Anfang.Y", playerloc.getY());
+                    cfg.set("Anfang.X", playerloc.getX());
+                    cfg.set("Anfang.Z", playerloc.getZ());
+                    cfg.set("Schwierigkeitsgrad", difficulty);
+                    try {
+                        cfg.save(f);
+                        player.sendMessage(ChatColor.GREEN + "JumpNRunStart Location gespeichert." + " Name: " + strings[0] + " Schwierigkeitsgrad: " + difficulty);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else if (strings.length == 1) {
+                    player.sendMessage(ChatColor.RED + "Setze einen Schwierigkeitsgrad fest!");
+                } else {
+                    player.sendMessage(ChatColor.RED + "Setze einen Namen und dann einen Schwierigkeitsgrad fest!");
                 }
-            }else if (strings.length == 1){
-                player.sendMessage(ChatColor.RED + "Setze einen Schwierigkeitsgrad fest!");
             }else {
-                player.sendMessage(ChatColor.RED + "Setze einen Namen und dann einen Schwierigkeitsgrad fest!");
+                player.sendMessage(ChatColor.DARK_RED + "Du hast dazu keine Berechtigung!");
             }
         }else {
             commandSender.sendMessage(ChatColor.RED + "Du musst ein Spieler sein.");
