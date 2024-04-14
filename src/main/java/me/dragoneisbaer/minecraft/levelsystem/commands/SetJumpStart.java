@@ -49,7 +49,6 @@ public class SetJumpStart implements CommandExecutor {
         }else {
             commandSender.sendMessage(ChatColor.RED + "Du musst ein Spieler sein.");
         }
-
         return true;
     }
 }
