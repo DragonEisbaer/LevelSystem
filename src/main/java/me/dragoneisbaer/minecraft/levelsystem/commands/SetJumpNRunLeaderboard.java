@@ -41,32 +41,24 @@ public class SetJumpNRunLeaderboard implements CommandExecutor {
                         String jumpnrunname = f.getName().substring(0, f.getName().lastIndexOf("."));
                         FileConfiguration cfg = YamlConfiguration.loadConfiguration(f);
                         FileConfiguration cfgplayer = YamlConfiguration.loadConfiguration(new File(Bukkit.getPluginsFolder().getAbsolutePath() + "/Spielerdaten/" + player.getUniqueId() + "/general.yml"));
+
+
                         ArmorStand leaderboardhead = (ArmorStand) player.getWorld().spawnEntity(player.getLocation().add(0, 0.2, 0), EntityType.ARMOR_STAND);
                         ArmorStand leaderboarddifficulty = (ArmorStand) player.getWorld().spawnEntity(player.getLocation().add(0, -0.1, 0), EntityType.ARMOR_STAND);
-                        ArmorStand leaderboardscoretext = (ArmorStand) player.getWorld().spawnEntity(player.getLocation().add(0, -0.4, -1.25), EntityType.ARMOR_STAND);
-                        ArmorStand leaderboardscore = (ArmorStand) player.getWorld().spawnEntity(player.getLocation().add(0, -0.9, -1.25), EntityType.ARMOR_STAND);
-                        ArmorStand highscorestext = (ArmorStand) player.getWorld().spawnEntity(player.getLocation().add(0, -0.4, 1.25), EntityType.ARMOR_STAND);
+                        ArmorStand highscorestext = (ArmorStand) player.getWorld().spawnEntity(player.getLocation().add(0, -0.4, 0), EntityType.ARMOR_STAND);
 
-                        ArmorStand highscore1 = (ArmorStand) player.getWorld().spawnEntity(player.getLocation().add(0, -0.7, 1.25), EntityType.ARMOR_STAND);
-                        ArmorStand highscore2 = (ArmorStand) player.getWorld().spawnEntity(player.getLocation().add(0, -0.9, 1.25), EntityType.ARMOR_STAND);
-                        ArmorStand highscore3 = (ArmorStand) player.getWorld().spawnEntity(player.getLocation().add(0, -1.1, 1.25), EntityType.ARMOR_STAND);
+                        ArmorStand highscore1 = (ArmorStand) player.getWorld().spawnEntity(player.getLocation().add(0, -0.7, 0), EntityType.ARMOR_STAND);
+                        ArmorStand highscore2 = (ArmorStand) player.getWorld().spawnEntity(player.getLocation().add(0, -0.9, 0), EntityType.ARMOR_STAND);
+                        ArmorStand highscore3 = (ArmorStand) player.getWorld().spawnEntity(player.getLocation().add(0, -1.1, 0), EntityType.ARMOR_STAND);
 
                         Component header = Component.text(ChatColor.DARK_GREEN + jumpnrunname);
-                        Component scoretext = Component.text("Dein Highscore:");
-                        String scorestring = cfgplayer.getString("timers." + jumpnrunname + ".best-time-formated");
-                        if (scorestring == null) {
-                            scorestring = "00:00:00";
-                        }
-                        Component score = Component.text(ChatColor.YELLOW + scorestring);
-                        Component highscoretext = Component.text("Beste Highscores:");
+                        Component highscoretext = Component.text("Best Highscores:");
 
-                        Component highscore1c = Component.text(ChatColor.GOLD + FormatTime(get3Best(jumpnrunname).get(0)));
-                        Component highscore2c = Component.text(ChatColor.GRAY + FormatTime(get3Best(jumpnrunname).get(1)));
-                        Component highscore3c = Component.text(ChatColor.WHITE + FormatTime(get3Best(jumpnrunname).get(2)));
+                        Component highscore1c = Component.text(ChatColor.GOLD + "#1 " + FormatTime(get3Best(jumpnrunname).get(0)));
+                        Component highscore2c = Component.text(ChatColor.GRAY + "#2 " + FormatTime(get3Best(jumpnrunname).get(1)));
+                        Component highscore3c = Component.text(ChatColor.WHITE + "#3 " + FormatTime(get3Best(jumpnrunname).get(2)));
 
                         setArmorStand(highscoretext, highscorestext);
-                        setArmorStand(score, leaderboardscore);
-                        setArmorStand(scoretext, leaderboardscoretext);
                         setArmorStand(getDifficulty(cfg.getInt("Schwierigkeitsgrad")), leaderboarddifficulty);
                         setArmorStand(header, leaderboardhead);
                         setArmorStand(highscore1c, highscore1);
@@ -94,7 +86,7 @@ public class SetJumpNRunLeaderboard implements CommandExecutor {
                 difficulty = Component.text(ChatColor.GREEN + "Easy");
                 break;
             case 2:
-                difficulty = Component.text(ChatColor.RED + "Medium");
+                difficulty = Component.text(ChatColor.YELLOW + "Medium");
                 break;
             case 3:
                 difficulty = Component.text(ChatColor.DARK_RED + "Hard");
