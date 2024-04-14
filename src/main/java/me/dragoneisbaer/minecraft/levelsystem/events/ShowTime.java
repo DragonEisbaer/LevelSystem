@@ -4,6 +4,7 @@ import me.dragoneisbaer.minecraft.levelsystem.LevelSystem;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.title.Title;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,9 +22,7 @@ public class ShowTime implements Listener {
         Player player = e.getPlayer();
 
         if (plugin.getJumpPlayers().get(player) != null && plugin.getJumpPlayers().get(player)) {
-            final net.kyori.adventure.text.Component mainTitle = net.kyori.adventure.text.Component.text("Zeit: " + FormatTime(plugin.getJumpPlayerTime().get(player).getTime()), NamedTextColor.GOLD);
-            final Title title = Title.title(mainTitle, Component.text(""), Title.Times.times(Duration.ZERO, Duration.ofMillis(1000L), Duration.ZERO));
-            player.showTitle(title);
+            player.sendActionBar(ChatColor.GOLD + FormatTime(plugin.getJumpPlayerTime().get(player).getTime()));
         }
     }
     private String FormatTime(long time) {

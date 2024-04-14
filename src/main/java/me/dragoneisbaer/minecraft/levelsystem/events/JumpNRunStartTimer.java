@@ -7,6 +7,8 @@ import me.dragoneisbaer.minecraft.levelsystem.utility.PlayerUtility;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.title.Title;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.BaseComponent;
 import org.apache.commons.lang3.time.StopWatch;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
