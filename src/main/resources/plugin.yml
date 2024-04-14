@@ -6,7 +6,7 @@ load: STARTUP
 commands:
   setlevel:
     description: Setzt dein Level.
-    usage: /<command>
+    usage: /<command> <level>
   setjumpstart:
     description: Setzte den Startpunkt eines JumpNRuns.
     usage: /<command> <name> <difficulty>
@@ -19,3 +19,6 @@ commands:
   reloadjumpnrun:
     description: Reloaded alle deine JumpNRunLocations.
     usage: /<command>
+  createleaderboard:
+    description: Erstellt ein Leaderboard
+    usage: /<command> <name>

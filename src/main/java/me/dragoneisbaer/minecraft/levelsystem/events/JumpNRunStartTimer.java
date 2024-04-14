@@ -101,6 +101,9 @@ public class JumpNRunStartTimer implements Listener {
                              if (time < cfg.getLong("timers." + jumpnrunname + ".best-time-millis")) {
                                  cfg.set("timers." + jumpnrunname + ".best-time-millis", time);
                                  cfg.set("timers." + jumpnrunname + ".best-time-formated", FormatTime(time));
+                             } else if ( cfg.getLong("timers." + jumpnrunname + ".best-time-millis") == 0) {
+                                 cfg.set("timers." + jumpnrunname + ".best-time-millis", time);
+                                 cfg.set("timers." + jumpnrunname + ".best-time-formated", FormatTime(time));
                              }
                              try{cfg.save(f);}catch (IOException ee){ee.printStackTrace();}
                          }
