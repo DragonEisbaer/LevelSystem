@@ -42,14 +42,6 @@ public class JumpNRunStartTimer implements Listener {
         Player player = e.getPlayer();
         for (Location location : jumpnrunloactions.keySet()) {
             String name = jumpnrunloactions.get(location);
-            File f1 = new File(Bukkit.getPluginsFolder().getAbsolutePath() + "/JumpNRunLocations/" + "1" + ".yml");
-            FileConfiguration cfg1 = YamlConfiguration.loadConfiguration(f1);
-            System.out.println(cfg1.getString("Anfang.World"));
-            System.out.println(Bukkit.getWorld(cfg1.getString("Anfang.World")));
-            System.out.println(location);
-            if (location.getWorld() == null) {
-                location.setWorld(Bukkit.getWorld(cfg1.getString("Anfang.World")));
-            }
             if (location.getNearbyPlayers(0.1).contains(player))  {
                 if (name.contains("Anfang")) {
                     String jumpnrunname = name.substring(0,name.length()-6);

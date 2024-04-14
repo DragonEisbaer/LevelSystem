@@ -15,6 +15,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.IOException;
@@ -54,8 +55,15 @@ public final class LevelSystem extends JavaPlugin {
         getCommand("setjumpstart").setExecutor(new SetJumpStart());
         getCommand("setjumpende").setExecutor(new SetJumpEnd());
 
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                getLogger().log(Level.INFO, "Verspäteter Load der JumpNRuns!");
+                loadJumpNRunLocations();
+            }
+
+        }.runTaskLaterAsynchronously(this, 20);
         loadPlayerData();
-        loadJumpNRunLocations();
         setAllPlayerJumpNormal();
 
     }
@@ -68,7 +76,6 @@ public final class LevelSystem extends JavaPlugin {
             File f = new File(PlayerUtility.getFolderPath(player) + "/general.yml");
             FileConfiguration cfg = YamlConfiguration.loadConfiguration(f);
             cfg.set("stats.level", memory.getLevel());
-            //cfg.set("stats.exp", memory.getExp());
             cfg.set("stats.name", memory.getName());
             try{cfg.save(f);
                 getLogger().log(Level.INFO, "[LevelSystemData] saved.");}
