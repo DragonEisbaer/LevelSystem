@@ -97,7 +97,6 @@ public class SetJumpNRunLeaderboard implements CommandExecutor {
         return difficulty;
     }
     private ArrayList<Long> get3Best(String jumpnrunname) {
-        ArrayList<String> besthighscores = new ArrayList<>();
         ArrayList<Long> allhighscores = new ArrayList<>();
         File folder = new File(Bukkit.getPluginsFolder().getAbsolutePath() + "/Spielerdaten/");
         if (folder.exists() && folder.listFiles() != null) {
@@ -112,9 +111,6 @@ public class SetJumpNRunLeaderboard implements CommandExecutor {
         Collections.sort(allhighscores);
         while (allhighscores.size() > 3) {
             allhighscores.remove(allhighscores.size() - 1);
-        }
-        for (Long allhighscore : allhighscores) {
-            besthighscores.add(String.valueOf(allhighscore));
         }
         return allhighscores;
     }
