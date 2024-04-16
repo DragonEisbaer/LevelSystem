@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.IOException;
 
 public class DeleteLeaderBoard implements CommandExecutor {
 
@@ -32,11 +33,17 @@ public class DeleteLeaderBoard implements CommandExecutor {
                     player.sendMessage(ChatColor.GRAY + "Wenn du das Leaderboard vollständig gelsöcht hast bitte gebe den folgenden Befehl ein:");
                     player.sendMessage(ChatColor.DARK_GREEN + "/deleteleaderboard confirm <jumpnrunname>");
                     player.sendMessage(ChatColor.GRAY + "Damit das JumpNRun Leaderboard vollständig gelöscht wird.");
-                } else if (strings.length == 3 && strings[1].equalsIgnoreCase("confirm")){
-                    File f = new File(Bukkit.getPluginsFolder().getAbsolutePath() + "/JumpNRunLocations/" + strings[2] + ".yml");
+                } else if (strings.length == 2 && strings[0].equalsIgnoreCase("confirm")){
+                    File f = new File(Bukkit.getPluginsFolder().getAbsolutePath() + "/JumpNRunLocations/" + strings[1] + ".yml");
                     if (f.exists()) {
                         FileConfiguration cfg = YamlConfiguration.loadConfiguration(f);
                         cfg.set("leaderboard.exists", false);
+                        try {
+                            cfg.save(f);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        player.sendMessage(ChatColor.GREEN + "Löschen des Leaderboards bestätigt!");
                     }else {
                         player.sendMessage(ChatColor.DARK_RED + "Bitte gebe einen gültigen Namen an.");
                     }
