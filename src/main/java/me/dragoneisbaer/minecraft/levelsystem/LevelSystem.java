@@ -79,7 +79,6 @@ public final class LevelSystem extends JavaPlugin {
                             String jumpnrunname = f.getName().substring(0, f.getName().lastIndexOf("."));
                             FileConfiguration cfg = YamlConfiguration.loadConfiguration(f);
                             if (!(cfg.getString("leaderboard.highscore1") == null)) {
-                                System.out.println("haha");
                                 UUID idhighscore1 = UUID.fromString(cfg.getString("leaderboard.highscore1"));
                                 highscore1 = (ArmorStand) Bukkit.getWorld(cfg.getString("Anfang.World")).getEntity(idhighscore1);
                             }
@@ -120,21 +119,18 @@ public final class LevelSystem extends JavaPlugin {
 
                             if (highscore1 != null) {
                                 highscore1.customName(highscore1c);
-                                System.out.println("highscore1 neu");
                             }
                             if (highscore2 != null) {
                                 highscore2.customName(highscore2c);
-                                System.out.println("highscore2 neu");
                             }
                             if (highscore3 != null) {
                                 highscore3.customName(highscore3c);
-                                System.out.println("highscore3 neu");
                             }
                         }
                     }
                 }
             }
-        }.runTaskTimer(this, 30, 20);
+        }.runTaskTimer(this, 30, 200);
 
 
         new BukkitRunnable() {
@@ -278,7 +274,7 @@ public final class LevelSystem extends JavaPlugin {
         }
         return allhighscores;
     }
-        private String FormatTime(long time) {
+    private String FormatTime(long time) {
         return String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(time), TimeUnit.MILLISECONDS.toMinutes(time) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(time)), TimeUnit.MILLISECONDS.toSeconds(time) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(time)));
     }
 }
