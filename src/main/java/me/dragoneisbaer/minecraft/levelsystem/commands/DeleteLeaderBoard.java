@@ -22,23 +22,18 @@ public class DeleteLeaderBoard implements CommandExecutor {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
             if (player.hasPermission("levelsystem.deleteleaderboard")) {
-                if (strings.length == 2) {
-                    File f = new File(Bukkit.getPluginsFolder().getAbsolutePath() + "/JumpNRunLocations/" + strings[0] + ".yml");
-                    if (f.exists()) {
-                        double r = Double.parseDouble(strings[1])/2;
-                        for (Entity entity : player.getLocation().getNearbyEntities(r,r,r)) {
-                            if (entity instanceof ArmorStand) {
-                                entity.remove();
-                            }
+                if (strings.length == 1) {
+                    double r = Double.parseDouble(strings[0])/2;
+                    for (Entity entity : player.getLocation().getNearbyEntities(r,r,r)) {
+                        if (entity instanceof ArmorStand) {
+                            entity.remove();
                         }
-                    } else {
-                        player.sendMessage(ChatColor.RED + "Gebe einen gültigen Namen an.");
                     }
-                } else if (strings.length == 1) {
-                    player.sendMessage(ChatColor.RED + "Gebe einen Radius an.");
                 } else {
-                    player.sendMessage(ChatColor.RED+ "Gebe einen Namen an!");
+                    player.sendMessage(ChatColor.RED+ "Gebe einen Radius an!");
                 }
+            }else {
+                player.sendMessage(ChatColor.RED + "Dazu hast du keine Berechtigung");
             }
         }else {
             commandSender.sendMessage(ChatColor.RED + "Du musst ein Spieler sein.");
