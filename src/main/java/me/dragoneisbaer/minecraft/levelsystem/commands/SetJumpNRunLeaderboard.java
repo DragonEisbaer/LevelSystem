@@ -40,8 +40,6 @@ public class SetJumpNRunLeaderboard implements CommandExecutor {
                     if (f.exists()) {
                         String jumpnrunname = f.getName().substring(0, f.getName().lastIndexOf("."));
                         FileConfiguration cfg = YamlConfiguration.loadConfiguration(f);
-                        FileConfiguration cfgplayer = YamlConfiguration.loadConfiguration(new File(Bukkit.getPluginsFolder().getAbsolutePath() + "/Spielerdaten/" + player.getUniqueId() + "/general.yml"));
-
 
                         ArmorStand leaderboardhead = (ArmorStand) player.getWorld().spawnEntity(player.getLocation().add(0, 0.2, 0), EntityType.ARMOR_STAND);
                         ArmorStand leaderboarddifficulty = (ArmorStand) player.getWorld().spawnEntity(player.getLocation().add(0, -0.1, 0), EntityType.ARMOR_STAND);

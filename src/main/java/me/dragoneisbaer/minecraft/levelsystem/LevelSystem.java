@@ -55,6 +55,7 @@ public final class LevelSystem extends JavaPlugin {
         getCommand("setjumpstart").setExecutor(new SetJumpStart());
         getCommand("setjumpende").setExecutor(new SetJumpEnd());
         getCommand("createleaderboard").setExecutor(new SetJumpNRunLeaderboard());
+        getCommand("deleteleaderboard").setExecutor(new DeleteLeaderBoard());
 
         new BukkitRunnable() {
             @Override
