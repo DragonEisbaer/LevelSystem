@@ -32,6 +32,7 @@ public class SetJumpStart implements CommandExecutor {
                     cfg.set("Anfang.X", playerloc.getX());
                     cfg.set("Anfang.Z", playerloc.getZ());
                     cfg.set("Schwierigkeitsgrad", difficulty);
+                    cfg.set("leaderboard.exists", false);
                     try {
                         cfg.save(f);
                         player.sendMessage(ChatColor.GREEN + "JumpNRunStart Location gespeichert." + " Name: " + strings[0] + " Schwierigkeitsgrad: " + difficulty);
