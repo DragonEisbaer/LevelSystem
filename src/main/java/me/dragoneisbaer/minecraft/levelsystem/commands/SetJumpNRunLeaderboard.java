@@ -53,9 +53,31 @@ public class SetJumpNRunLeaderboard implements CommandExecutor {
                             Component header = Component.text(ChatColor.DARK_GREEN + jumpnrunname);
                             Component highscoretext = Component.text("Best Highscores:");
 
-                            Component highscore1c = Component.text(ChatColor.GOLD + "#1 " + FormatTime(get3Best(jumpnrunname).get(0)));
-                            Component highscore2c = Component.text(ChatColor.GRAY + "#2 " + FormatTime(get3Best(jumpnrunname).get(1)));
-                            Component highscore3c = Component.text(ChatColor.WHITE + "#3 " + FormatTime(get3Best(jumpnrunname).get(2)));
+                            Component highscore1c;
+                            Component highscore2c;
+                            Component highscore3c;
+
+                            if (get3Best(jumpnrunname).get(0) == 0 && get3Best(jumpnrunname).get(1) == 0 && get3Best(jumpnrunname).get(2) == 0) {
+                                highscore1c = Component.text(ChatColor.RED + "Keine bisherigen Daten");
+                                highscore2c = highscore1c;
+                                highscore3c = highscore1c;
+                            }else if (get3Best(jumpnrunname).get(0) == 0 && get3Best(jumpnrunname).get(1) == 0 && get3Best(jumpnrunname).get(2) != 0){
+                                highscore1c = Component.text(ChatColor.GOLD + "#1 " + FormatTime(get3Best(jumpnrunname).get(2)));
+                                highscore2c = Component.text(ChatColor.RED + "Keine weiteren Runs");
+                                highscore3c = highscore2c;
+                            }else if (get3Best(jumpnrunname).get(0) == 0 && get3Best(jumpnrunname).get(1) != 0 && get3Best(jumpnrunname).get(2) != 0){
+                                highscore1c = Component.text(ChatColor.GOLD + "#1 " + FormatTime(get3Best(jumpnrunname).get(1)));
+                                highscore2c = Component.text(ChatColor.GRAY + "#2 " + FormatTime(get3Best(jumpnrunname).get(2)));
+                                highscore3c = Component.text(ChatColor.RED + "Keine weiteren Runs");
+                            }else if (get3Best(jumpnrunname).get(0) != 0 && get3Best(jumpnrunname).get(1) != 0 && get3Best(jumpnrunname).get(2) != 0) {
+                                highscore1c = Component.text(ChatColor.GOLD + "#1 " + FormatTime(get3Best(jumpnrunname).get(0)));
+                                highscore2c = Component.text(ChatColor.GRAY + "#2 " + FormatTime(get3Best(jumpnrunname).get(1)));
+                                highscore3c = Component.text(ChatColor.WHITE + "#3 " + FormatTime(get3Best(jumpnrunname).get(2)));
+                            }else {
+                                highscore1c = Component.text(ChatColor.RED + "Komisch");
+                                highscore2c = highscore1c;
+                                highscore3c = highscore1c;
+                            }
 
                             setArmorStand(highscoretext, highscorestext);
                             setArmorStand(getDifficulty(cfg.getInt("Schwierigkeitsgrad")), leaderboarddifficulty);
@@ -65,6 +87,8 @@ public class SetJumpNRunLeaderboard implements CommandExecutor {
                             setArmorStand(highscore3c, highscore3);
 
                             cfg.set("leaderboard.exists", true);
+
+                            player.sendMessage(ChatColor.DARK_GREEN + "Leaderboard wurde erfolgreich erstellt!");
                         }else {
                             player.sendMessage(ChatColor.DARK_RED + "Dieses Leaderboard existiert bereits!");
                         }
@@ -108,9 +132,21 @@ public class SetJumpNRunLeaderboard implements CommandExecutor {
                 if (f.exists()) {
                     File file = new File(f + "/general.yml");
                     FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
-                    allhighscores.add(cfg.getLong("timers." + jumpnrunname + ".best-time-millis"));
+                    if (cfg.getLong("timers." + jumpnrunname + ".best-time-millis") != 0) {
+                        allhighscores.add(cfg.getLong("timers." + jumpnrunname + ".best-time-millis"));
+                    }
                 }
             }
+        }
+        if (allhighscores.isEmpty()) {
+            allhighscores.add(0L);
+            allhighscores.add(0L);
+            allhighscores.add(0L);
+        } else if (allhighscores.size() < 2) {
+            allhighscores.add(0L);
+            allhighscores.add(0L);
+        }else {
+            allhighscores.add(0L);
         }
         Collections.sort(allhighscores);
         while (allhighscores.size() > 3) {
