@@ -51,7 +51,7 @@ public class DeleteLeaderBoard implements CommandExecutor {
                     player.sendMessage(ChatColor.RED+ "Gebe einen Radius an!");
                 }
             }else {
-                player.sendMessage(ChatColor.RED + "Dazu hast du keine Berechtigung");
+                player.sendMessage(ChatColor.RED + "Dazu hast du keine Berechtigung!");
             }
         }else {
             commandSender.sendMessage(ChatColor.RED + "Du musst ein Spieler sein.");
