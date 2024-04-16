@@ -5,6 +5,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -87,6 +88,15 @@ public class SetJumpNRunLeaderboard implements CommandExecutor {
                             setArmorStand(highscore3c, highscore3);
 
                             cfg.set("leaderboard.exists", true);
+                            cfg.set("leaderboard.location", leaderboardhead.getLocation());
+                            cfg.set("leaderboard.highscore1", highscore1.getUniqueId().toString());
+                            cfg.set("leaderboard.highscore2", highscore2.getUniqueId().toString());
+                            cfg.set("leaderboard.highscore3", highscore3.getUniqueId().toString());
+                            try {
+                                cfg.save(f);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
 
                             player.sendMessage(ChatColor.DARK_GREEN + "Leaderboard wurde erfolgreich erstellt!");
                         }else {
