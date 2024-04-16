@@ -79,7 +79,6 @@ public class SetJumpNRunLeaderboard implements CommandExecutor {
                                 highscore2c = highscore1c;
                                 highscore3c = highscore1c;
                             }
-
                             setArmorStand(highscoretext, highscorestext);
                             setArmorStand(getDifficulty(cfg.getInt("Schwierigkeitsgrad")), leaderboarddifficulty);
                             setArmorStand(header, leaderboardhead);
