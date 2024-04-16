@@ -21,7 +21,7 @@ commands:
     usage: /<command>
   createleaderboard:
     description: Erstellt ein Leaderboard
-    usage: /<command> <name>
+    usage: /<command> <name> <displayname>
   deleteleaderboard:
     description: Löscht ein Leaderboard von einem JumpNRun.
     usage: /<command> <name>

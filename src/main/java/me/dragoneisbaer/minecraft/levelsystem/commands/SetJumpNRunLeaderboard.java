@@ -36,7 +36,7 @@ public class SetJumpNRunLeaderboard implements CommandExecutor {
         if (commandSender instanceof Player) {
             Player player = ((Player) commandSender);
             if (player.hasPermission("levelsystem.createleaderboard")) {
-                if (strings.length == 1) {
+                if (strings.length == 2) {
                     File f = new File(Bukkit.getPluginsFolder().getAbsolutePath() + "/JumpNRunLocations/" + strings[0] + ".yml");
                     if (f.exists()) {
                         FileConfiguration cfg = YamlConfiguration.loadConfiguration(f);
@@ -51,7 +51,7 @@ public class SetJumpNRunLeaderboard implements CommandExecutor {
                             ArmorStand highscore2 = (ArmorStand) player.getWorld().spawnEntity(player.getLocation().add(0, -0.9, 0), EntityType.ARMOR_STAND);
                             ArmorStand highscore3 = (ArmorStand) player.getWorld().spawnEntity(player.getLocation().add(0, -1.1, 0), EntityType.ARMOR_STAND);
 
-                            Component header = Component.text(ChatColor.DARK_GREEN + jumpnrunname);
+                            Component header = Component.text(ChatColor.translateAlternateColorCodes('&', strings[1]));
                             Component highscoretext = Component.text("Best Highscores:");
 
                             Component highscore1c;
@@ -104,8 +104,10 @@ public class SetJumpNRunLeaderboard implements CommandExecutor {
                     } else {
                         player.sendMessage(ChatColor.RED + "Du musst einen gültigen JumpNRun Namen angeben!");
                     }
-                } else {
-                    player.sendMessage(ChatColor.RED + "Du musst einen JumpNRun Namen angeben!");
+                } else if (strings.length == 1){
+                    player.sendMessage(ChatColor.RED + "Du musst einen Anzeigenamen angeben!");
+                }else {
+                    player.sendMessage(ChatColor.DARK_RED + "Gebe eine JumpNRun Name und den Anzeigenamen an!");
                 }
             } else {
                 player.sendMessage(ChatColor.DARK_RED + "Du hast keine Berechtigung dafür!");
