@@ -137,7 +137,7 @@ public final class LevelSystem extends JavaPlugin {
             @Override
             public void run() {
                 getLogger().log(Level.INFO, "Verspäteter Load der JumpNRuns!");
-                loadJumpNRunLocations();
+                loadJumpNRunLocations(1);
             }
 
         }.runTaskLaterAsynchronously(this, 20);
@@ -188,7 +188,7 @@ public final class LevelSystem extends JavaPlugin {
             getLogger().log(Level.INFO, "[LevelSystemData] loaded.");
         }
     }
-    public void loadJumpNRunLocations() {
+    public void loadJumpNRunLocations(int instance) {
         File folder = new File(Bukkit.getPluginsFolder().getAbsolutePath() + "/JumpNRunLocations/");
         List<File> files = new ArrayList<>();
         if (folder.exists()) {
@@ -201,12 +201,14 @@ public final class LevelSystem extends JavaPlugin {
                 e.printStackTrace();
             }
             for (File f : files) {
-                getLogger().log(Level.INFO, "JumpNRun: " + f.getName().substring(0, f.getName().lastIndexOf(".")) + " geladen!");
                 FileConfiguration cfg = YamlConfiguration.loadConfiguration(f);
                 Location anfanglocation = new Location(Bukkit.getWorld(cfg.getString("Anfang.World")), cfg.getDouble("Anfang.X"), cfg.getDouble("Anfang.Y"), cfg.getDouble("Anfang.Z"));
                 Location endelocation = new Location(Bukkit.getWorld(cfg.getString("Ende.World")), cfg.getDouble("Ende.X"), cfg.getDouble("Ende.Y"), cfg.getDouble("Ende.Z"));
                 jumpnrunloactions.put(anfanglocation, f.getName().substring(0, f.getName().lastIndexOf(".")) + "Anfang");
                 jumpnrunloactions.put(endelocation, f.getName().substring(0, f.getName().lastIndexOf(".")) + "Ende");
+                if(instance == 1) {
+                    getLogger().log(Level.INFO, "JumpNRun: " + f.getName().substring(0, f.getName().lastIndexOf(".")) + " geladen!");
+                }
             }
         }else {
             this.getLogger().log(Level.WARNING, "Es gibt noch keine JumpNRuns!");

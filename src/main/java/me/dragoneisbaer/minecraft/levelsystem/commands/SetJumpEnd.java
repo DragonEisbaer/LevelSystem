@@ -1,5 +1,6 @@
 package me.dragoneisbaer.minecraft.levelsystem.commands;
 
+import me.dragoneisbaer.minecraft.levelsystem.LevelSystem;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -8,6 +9,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -32,6 +34,8 @@ public class SetJumpEnd implements CommandExecutor {
                     try {
                         cfg.save(f);
                         player.sendMessage(ChatColor.GREEN + "JumpNRunEnde Location gespeichert." + " Name: " + strings[0]);
+                        LevelSystem plugin = JavaPlugin.getPlugin(LevelSystem.class);
+                        plugin.loadJumpNRunLocations(0);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

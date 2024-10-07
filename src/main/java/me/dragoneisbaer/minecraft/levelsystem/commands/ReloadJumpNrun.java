@@ -34,7 +34,7 @@ public class ReloadJumpNrun implements CommandExecutor {
 
             LevelSystem plugin = JavaPlugin.getPlugin(LevelSystem.class);
 
-            plugin.loadJumpNRunLocations();
+            plugin.loadJumpNRunLocations(1);
             if (commandSender instanceof Player) {
                 ((Player) commandSender).getPlayer().sendMessage(ChatColor.DARK_GREEN + "JumpNRuns geladen!");
             }
